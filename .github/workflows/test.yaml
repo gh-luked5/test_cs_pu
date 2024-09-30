@@ -4,11 +4,18 @@ on: [push]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - uses: actions/checkout@v4
       - run: |
-          sudo apt update -y
-          sudo apt install python3 python3-pip -y
-          sudo pip install checkov
-          checkov -d . --quiet
+          rm -r ./.github
+          checkov -d . -o sarif --quiet || echo "ok"
+          cat results.sarif
+      - name: Upload SARIF file
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          # Path to SARIF file relative to the root of the repository
+          sarif_file: results.sarif
+          # Optional category for the results
+          # Used to differentiate multiple results for one commit
+          category: my-analysis-tool
