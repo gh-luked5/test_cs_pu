@@ -15,11 +15,11 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           rm -r .github/
-          sudo apt-get update -y && sudo apt-get install -y gnupg software-properties-common
           sudo apt update -y
           sudo apt install python3 python3-pip -y
           sudo pip install checkov
-          sudo apt-get install terraform
+          wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
+          sudo unzip terraform_1.9.2_linux_amd64.zip -d /usr/local/bin
           terraform init
           terraform plan -out tfplan
           terraform show -json tfplan > tf.json
