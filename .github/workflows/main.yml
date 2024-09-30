@@ -15,10 +15,16 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           rm -r .github/
+          sudo apt-get update -y && sudo apt-get install -y gnupg software-properties-common
           sudo apt update -y
           sudo apt install python3 python3-pip -y
           sudo pip install checkov
-          checkov -d . -o sarif --quiet || echo "ok"
+          sudo apt-get install terraform
+          terraform init
+          terraform plan -out tfplan
+          terraform show -json tfplan > tf.json
+          checkov -f tf.json -o sarif --quiet || echo "ok"
+          #checkov -d . -o sarif --quiet || echo "ok"
           cat results.sarif
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
