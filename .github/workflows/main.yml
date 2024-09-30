@@ -18,15 +18,15 @@ jobs:
           sudo apt update -y
           sudo apt install python3 python3-pip -y
           sudo pip install checkov
-          rm -r /usr/local/bin/LICENSE.txt
-          rm -r /usr/local/bin/terraform
-          wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
-          sudo unzip terraform_1.9.2_linux_amd64.zip -d /usr/local/bin
-          terraform init
-          terraform plan -out tfplan
-          terraform show -json tfplan > tf.json
-          checkov -f ./prod/tf.json -o sarif --quiet || echo "ok"
-          #checkov -d . -o sarif --quiet || echo "ok"
+          # rm -r /usr/local/bin/LICENSE.txt
+          # rm -r /usr/local/bin/terraform
+          # wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
+          # sudo unzip terraform_1.9.2_linux_amd64.zip -d /usr/local/bin
+          # terraform init
+          # terraform plan -out tfplan
+          # terraform show -json tfplan > tf.json
+          # checkov -f ./prod/tf.json -o sarif --quiet || echo "ok"
+          checkov -d . -o sarif --quiet || echo "ok"
           cat results.sarif
       - name: Upload SARIF file
         uses: github/codeql-action/upload-sarif@v3
