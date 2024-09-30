@@ -22,11 +22,9 @@ jobs:
           rm -r /usr/local/bin/terraform
           wget https://releases.hashicorp.com/terraform/1.9.2/terraform_1.9.2_linux_amd64.zip
           sudo unzip terraform_1.9.2_linux_amd64.zip -d /usr/local/bin
-          cd prod/
           terraform init
           terraform plan -out tfplan
           terraform show -json tfplan > tf.json
-          cd ..
           checkov -f ./prod/tf.json -o sarif --quiet || echo "ok"
           #checkov -d . -o sarif --quiet || echo "ok"
           cat results.sarif
