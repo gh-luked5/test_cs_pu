@@ -8,7 +8,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: |
-          apt update -y
-          apt install python3 python3-pip -y
-          pip install checkov
+          sudo apt update -y
+          sudo apt install python3 python3-pip -y
+          sudo pip install checkov
           checkov -v
